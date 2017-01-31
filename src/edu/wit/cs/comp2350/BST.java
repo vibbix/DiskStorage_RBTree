@@ -57,7 +57,6 @@ public class BST extends LocationHolder {
 
 	@Override
 	public void insert(DiskLocation d) {
-		System.err.println("inserting " + d.toString());
 		d.left = nil;
 		d.right = nil;
 		if (root == null) {	// tree is empty
