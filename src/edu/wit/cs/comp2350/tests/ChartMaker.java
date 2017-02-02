@@ -132,7 +132,6 @@ public class ChartMaker extends ApplicationFrame {
         	}
         	DiskLocation[] d = new DiskLocation[Double.valueOf(t).intValue()];
     		LocationHolder l = new BST();
-    		System.err.printf("%d size with %c\n", Double.valueOf(t).intValue(), algo);
     		int samples = 100;	// number of samples at each array size
         	double sec = 0;
         	for (int i = 0; i < samples; i++) {
