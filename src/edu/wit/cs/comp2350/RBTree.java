@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public class RBTree extends LocationHolder {
 
-	private DiskLocation nil = new DiskLocation(-1, -1);
+	private static final DiskLocation nil = new DiskLocation(-1, -1);
 	private DiskLocation root = null;
 
 	private void setRed(DiskLocation z) {
@@ -30,6 +30,7 @@ public class RBTree extends LocationHolder {
 
 	@Override
 	public void insert(DiskLocation d) {
+//	    insert(this.root, d);
 		d.parent = this.findParent(d, this.root, nil);
 		if (d.parent == null || d.parent.equals(nil)) {
 			this.root = d;
@@ -42,6 +43,7 @@ public class RBTree extends LocationHolder {
 		}
 		d.left = nil;
 		d.right = nil;
+
 	}
 
 	@Override
@@ -62,14 +64,14 @@ public class RBTree extends LocationHolder {
 	}
 
 	private DiskLocation succ(DiskLocation d) {
-		if (d.right != null)
+		if (d.right != null && !d.right.equals(nil))
 			return this.minValue(d);
 		return up(d);
 	}
 
 	private DiskLocation up(DiskLocation d) {
 		DiskLocation p = d.parent;
-		if ((p.parent == null) || (d.parent.equals(this.nil))|| (d == p.left)) {
+		if ((p.parent == null) || (d.parent.equals(this.nil)) || (d == p.left)) {
 			return p;
 		}
 		return up(p);
@@ -83,9 +85,42 @@ public class RBTree extends LocationHolder {
 		return dl;
 	}
 
-	//private void fixInsert(DiskLocation d){
-	//	while(d.parent.color == RB.RED){
-	//		if (d.parent)
-	//	}
-	//}
+	private void fixInsert(DiskLocation d){
+		while(d.parent.color == RB.RED){
+            if (d.parent.equals(d.parent.parent.left)){
+                DiskLocation y = d.parent.parent.right;
+                if (y.color == RB.RED){
+                    d.parent.color = RB.BLACK;
+                    y.color = RB.BLACK;
+                    d.parent.parent.color = RB.RED;
+                    d = d.parent.parent;
+                } else {
+                    if(d.equals(d.parent.right)){
+                        d = d.parent;
+                        rotateLeft(d);
+                    }
+                    d.parent.color = RB.BLACK;
+                    d.parent.parent.color = RB.RED;
+                    rotateRight(d.parent.parent);
+                }
+            } else {
+                this.swapChild(d);
+            }
+		}
+		this.root.color = RB.BLACK;
+	}
+	private void rotateRight(DiskLocation d){
+
+    }
+    private void rotateLeft(DiskLocation d){
+
+    }
+    private void swapChild(DiskLocation d){
+        DiskLocation temp = d.left;
+        d.left = d.right;
+        d.right = temp;
+    }
+    private static boolean isNil(DiskLocation d){
+        return (d == null) || (d.equals(nil));
+    }
 }
